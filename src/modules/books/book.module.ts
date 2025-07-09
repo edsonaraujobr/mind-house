@@ -1,10 +1,9 @@
 import { Module } from '@nestjs/common';
-import { AuthController } from './auth.controller';
-import { AuthService } from './auth.service';
+import { BookController } from './book.controller';
+import { BookService } from './book.service';
 import { JwtModule } from '@nestjs/jwt';
 import { PrismaModule } from 'prisma/prisma.module';
 import { TokenService } from '@jwt/jwt.service';
-import { JwtStrategy } from '@jwt/jwt.strategy';
 
 @Module({
   imports: [
@@ -15,7 +14,7 @@ import { JwtStrategy } from '@jwt/jwt.strategy';
       signOptions: { expiresIn: '1d' },
     }),
   ],
-  controllers: [AuthController],
-  providers: [AuthService, TokenService, JwtStrategy],
+  controllers: [BookController],
+  providers: [BookService, TokenService],
 })
-export class AuthModule {}
+export class BookModule {}

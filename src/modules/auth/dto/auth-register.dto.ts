@@ -1,11 +1,10 @@
-import { AuthSuccessResponse } from '@auth/interfaces/auth.interfaces';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEmail, IsNotEmpty, IsString, MinLength } from 'class-validator';
 
 export class RegisterDto {
   @ApiProperty()
   @IsEmail()
-  @IsString()
+  @IsNotEmpty()
   email: string;
 
   @ApiProperty()
@@ -13,9 +12,4 @@ export class RegisterDto {
   @IsString()
   @MinLength(6)
   password: string;
-}
-
-export class AuthRegisterResponseDto implements AuthSuccessResponse {
-  @ApiProperty({ example: 'true' })
-  success: boolean;
 }

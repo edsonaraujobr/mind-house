@@ -9,6 +9,6 @@ export class TokenService {
     id: string;
     email: string;
   }): Promise<string> {
-    return this.jwt.signAsync(payload);
+    return this.jwt.signAsync({ sub: payload.id, email: payload.email });
   }
 }

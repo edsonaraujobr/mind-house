@@ -8,7 +8,8 @@ import { RegisterDto } from './dto/auth-register.dto';
 import { LoginDto } from './dto/auth-login.dto';
 import * as bcrypt from 'bcrypt';
 import { TokenService } from '../jwt/jwt.service';
-import { AuthSuccessResponse, AuthTokenResponse } from './interfaces/auth.interfaces';
+import { AuthTokenResponse } from './interfaces/auth.interfaces';
+import { SuccessResponse } from '@common/common.interfaces';
 
 @Injectable()
 export class AuthService {
@@ -17,7 +18,7 @@ export class AuthService {
     private tokenService: TokenService,
   ) {}
 
-  async register({ email, password }: RegisterDto): Promise<AuthSuccessResponse> {
+  async register({ email, password }: RegisterDto): Promise<SuccessResponse> {
     const userExists = await this.prisma.user.findUnique({ where: { email } });
 
     if (userExists) {
@@ -37,7 +38,7 @@ export class AuthService {
       email: user.email,
     });
 
-    return { success: true };
+    return { success: true, description: 'Usuário criado com sucesso!'};
   }
 
   async login({ email, password }: LoginDto): Promise<AuthTokenResponse> {

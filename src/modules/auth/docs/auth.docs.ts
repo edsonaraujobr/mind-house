@@ -1,8 +1,9 @@
 import { applyDecorators } from '@nestjs/common';
 import { ApiOperation, ApiBody, ApiResponse } from '@nestjs/swagger';
-import { AuthRegisterResponseDto, RegisterDto } from '../dto/auth-register.dto';
+import { RegisterDto } from '../dto/auth-register.dto';
 import { AuthLoginResponseDto, LoginDto } from '../dto/auth-login.dto';
-import { ErrorResponseDto } from '@common/error.response.dto';
+import { ApiErrorExample } from '@common/dto/error.response.dto';
+import { SuccessResponseDto } from '@common/dto/success.response.dto';
 
 export function SwaggerRegisterDocs() {
   return applyDecorators(
@@ -11,13 +12,9 @@ export function SwaggerRegisterDocs() {
     ApiResponse({
       status: 201,
       description: 'Usuário criado com sucesso',
-      type: AuthRegisterResponseDto,
+      type: SuccessResponseDto,
     }),
-    ApiResponse({
-      status: 400,
-      description: 'Email já está em uso',
-      type: ErrorResponseDto
-    }),
+    ApiErrorExample({ status: 400, errorMessage: 'Email já está em uso', path: '/auth/register', method: 'POST' }),
   );
 }
 
@@ -30,10 +27,6 @@ export function SwaggerLoginDocs() {
       description: 'Token retornado com sucesso',
       type: AuthLoginResponseDto,
     }),
-    ApiResponse({
-      status: 401,
-      description: 'Credenciais inválidas',
-      type: ErrorResponseDto
-    }),
+    ApiErrorExample({ status: 400, errorMessage: 'Credenciais inválidas!', path: '/auth/login', method: 'POST' }),
   );
 }
