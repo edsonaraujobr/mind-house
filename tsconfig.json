@@ -22,14 +22,14 @@
     "rootDir": "src",
     "baseUrl": "./src",
     "paths": {
-      "@common/": ["./common/"],
-      "@common/*": ["./common/*"],
+      "@common/": ["./modules/common/"],
+      "@common/*": ["./modules/common/*"],
       "@auth/": ["./modules/auth/"],
       "@auth/*": ["./modules/auth/*"],
       "@jwt/": ["./modules/jwt/"],
       "@jwt/*": ["./modules/jwt/*"],
-      "@prisma/": ["../prisma/"],
-      "@prisma/*": ["../prisma/*"],
+      "@prisma/": ["./prisma/"],
+      "@prisma/*": ["./prisma/*"],
     }
   }
 }

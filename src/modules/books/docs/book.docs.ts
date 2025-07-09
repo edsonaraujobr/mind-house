@@ -1,9 +1,17 @@
 import { applyDecorators } from '@nestjs/common';
-import { ApiOperation, ApiBody, ApiResponse, ApiQuery, ApiExtraModels, getSchemaPath } from '@nestjs/swagger';
+import {
+  ApiOperation,
+  ApiBody,
+  ApiResponse,
+  ApiQuery,
+  ApiExtraModels,
+  getSchemaPath,
+  ApiParam,
+} from '@nestjs/swagger';
 import { BookDto } from '../dto/book.dto';
-import { SuccessResponseDto } from '@common/dto/success.response.dto';
-import { ApiErrorExample } from '@common/dto/error.response.dto';
-import { PaginatedDto } from '@common/dto/paginated.response.dto';
+import { SuccessResponseDto } from 'modules/common/dto/success.response.dto';
+import { ApiErrorExample } from 'modules/common/dto/error.response.dto';
+import { PaginatedDto } from 'modules/common/dto/paginated.response.dto';
 
 export function SwaggerCreateBookDocs() {
   return applyDecorators(
@@ -14,7 +22,12 @@ export function SwaggerCreateBookDocs() {
       description: 'Livro criado com sucesso',
       type: SuccessResponseDto,
     }),
-    ApiErrorExample({ status: 400, errorMessage: 'ISBN já está em uso', path: '/books', method: 'POST' }),
+    ApiErrorExample({
+      status: 400,
+      errorMessage: 'ISBN já está em uso',
+      path: '/books',
+      method: 'POST',
+    }),
   );
 }
 
@@ -32,6 +45,29 @@ export function SwaggerListBooksDocs() {
       schema: {
         allOf: [{ $ref: getSchemaPath(PaginatedBookDto) }],
       },
+    }),
+  );
+}
+
+export function SwaggerGetBookByIdDocs() {
+  return applyDecorators(
+    ApiOperation({ summary: 'Obtém um livro pelo ID' }),
+    ApiParam({
+      name: 'id',
+      required: true,
+      description: 'ID do livro (UUID)',
+      example: 'ae8e014f-6e61-487e-96f1-754103acb971',
+    }),
+    ApiResponse({
+      status: 200,
+      description: 'Livro encontrado com sucesso',
+      type: BookDto,
+    }),
+    ApiErrorExample({
+      status: 400,
+      errorMessage: 'Livro não encontrado',
+      path: '/books/{id}',
+      method: 'GET',
     }),
   );
 }

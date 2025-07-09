@@ -1,9 +1,9 @@
-import { env } from "@common/env";
-import { HttpExceptionFilter } from "@common/http-exception.filter";
-import { ValidationPipe } from "@nestjs/common";
-import { NestFactory } from "@nestjs/core";
-import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
-import { AppModule } from "app.module";
+import { env } from 'modules/common/env';
+import { HttpExceptionFilter } from 'modules/common/http-exception.filter';
+import { ValidationPipe } from '@nestjs/common';
+import { NestFactory } from '@nestjs/core';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { AppModule } from 'app.module';
 
 async function bootstrap() {
   try {
@@ -20,11 +20,12 @@ async function bootstrap() {
     SwaggerModule.setup('docs', app, document);
 
     app.useGlobalFilters(new HttpExceptionFilter());
-    app.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true }));
+    app.useGlobalPipes(
+      new ValidationPipe({ whitelist: true, transform: true }),
+    );
 
     await app.listen(env.PORT_SERVER);
     console.log(`App rodando em: http://localhost:${env.PORT_SERVER}`);
-
   } catch (error) {
     console.error(error);
   }

@@ -4,8 +4,8 @@ import { RegisterDto } from './dto/auth-register.dto';
 import { LoginDto } from './dto/auth-login.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { SwaggerLoginDocs, SwaggerRegisterDocs } from './docs/auth.docs';
-import { Public } from '@common/public.decorator';
-import { SuccessResponse } from '@common/common.interfaces';
+import { Public } from 'modules/common/public.decorator';
+import { SuccessResponse } from 'modules/common/common.interfaces';
 import { AuthTokenResponse } from './interfaces/auth.interfaces';
 
 @ApiTags('Auth')

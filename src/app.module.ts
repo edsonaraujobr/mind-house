@@ -6,11 +6,7 @@ import { JwtAuthGuard } from './modules/jwt/jwt.guard';
 import { BookModule } from 'modules/books/book.module';
 
 @Module({
-  imports: [
-    AuthModule,
-    BookModule,
-    PrismaModule,
-  ],
+  imports: [AuthModule, BookModule, PrismaModule],
   providers: [
     {
       provide: APP_GUARD,

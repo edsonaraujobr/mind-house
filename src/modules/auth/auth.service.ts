@@ -9,7 +9,7 @@ import { LoginDto } from './dto/auth-login.dto';
 import * as bcrypt from 'bcrypt';
 import { TokenService } from '../jwt/jwt.service';
 import { AuthTokenResponse } from './interfaces/auth.interfaces';
-import { SuccessResponse } from '@common/common.interfaces';
+import { SuccessResponse } from 'modules/common/common.interfaces';
 
 @Injectable()
 export class AuthService {
@@ -38,7 +38,7 @@ export class AuthService {
       email: user.email,
     });
 
-    return { success: true, description: 'Usuário criado com sucesso!'};
+    return { success: true, description: 'Usuário criado com sucesso!' };
   }
 
   async login({ email, password }: LoginDto): Promise<AuthTokenResponse> {

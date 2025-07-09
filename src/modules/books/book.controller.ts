@@ -1,9 +1,13 @@
-import { Body, Controller, Get, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { BookDto } from './dto/book.dto';
 import { BookService } from './book.service';
-import { Paginated, SuccessResponse } from '@common/common.interfaces';
-import { SwaggerCreateBookDocs, SwaggerListBooksDocs } from './docs/book.docs';
+import { Paginated, SuccessResponse } from 'modules/common/common.interfaces';
+import {
+  SwaggerCreateBookDocs,
+  SwaggerGetBookByIdDocs,
+  SwaggerListBooksDocs,
+} from './docs/book.docs';
 import { BookModel } from './interfaces/book.interfaces';
 
 @ApiTags('Book')
@@ -27,5 +31,11 @@ export class BookController {
     const pageNumber = parseInt(page);
     const pageSizeNumber = parseInt(pageSize);
     return this.bookService.listBooks(pageNumber, pageSizeNumber);
+  }
+
+  @SwaggerGetBookByIdDocs()
+  @Get(':id')
+  async getBookById(@Param('id') id: string): Promise<BookModel> {
+    return this.bookService.getBookById(id);
   }
 }
