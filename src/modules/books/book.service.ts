@@ -3,8 +3,9 @@ import {
   BadRequestException,
 } from '@nestjs/common';
 import { PrismaService } from 'prisma/prisma.service';
-import { CreateBookDto } from './dto/create-book.dto';
-import { SuccessResponse } from '@common/common.interfaces';
+import { BookDto } from './dto/book.dto';
+import { Paginated, SuccessResponse } from '@common/common.interfaces';
+import { BookModel } from './interfaces/book.interfaces';
 
 @Injectable()
 export class BookService {
@@ -12,7 +13,7 @@ export class BookService {
     private prisma: PrismaService,
   ) {}
 
-  async createBook({ title, author, isbn, publishedYear }: CreateBookDto): Promise<SuccessResponse> {
+  async createBook({ title, author, isbn, publishedYear }: BookDto): Promise<SuccessResponse> {
     if (isbn) {
       const existingBook = await this.prisma.book.findUnique({
         where: { isbn },
@@ -23,7 +24,7 @@ export class BookService {
       }
     }
 
-    const book = await this.prisma.book.create({
+    await this.prisma.book.create({
       data: {
         title,
         author,
@@ -34,4 +35,31 @@ export class BookService {
 
     return { description: 'Livro criado com sucesso', success: true };
   }
+
+  async listBooks(page: number, pageSize: number): Promise<Paginated<BookModel>> {
+    const skip = (page - 1) * pageSize;
+
+    const [totalCount, nodes] = await Promise.all([
+      this.prisma.book.count(),
+      this.prisma.book.findMany({ skip, take: pageSize, select: {
+        title: true,
+        author: true,
+        isbn: true,
+        publishedYear: true,
+      } }),
+    ]);
+  
+    const hasNextPage = skip + nodes.length < totalCount;
+    const nextSkip = hasNextPage ? skip + nodes.length : undefined;
+  
+    return {
+      nodes,
+      totalCount,
+      page,
+      pageSize,
+      hasNextPage,
+      nextSkip,
+    };
+  }
+  
 }

@@ -1,9 +1,10 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { CreateBookDto } from './dto/create-book.dto';
+import { BookDto } from './dto/book.dto';
 import { BookService } from './book.service';
-import { SuccessResponse } from '@common/common.interfaces';
-import { SwaggerCreateBookDocs } from './docs/book.docs';
+import { Paginated, SuccessResponse } from '@common/common.interfaces';
+import { SwaggerCreateBookDocs, SwaggerListBooksDocs } from './docs/book.docs';
+import { BookModel } from './interfaces/book.interfaces';
 
 @ApiTags('Book')
 @ApiBearerAuth()
@@ -13,8 +14,18 @@ export class BookController {
 
   @SwaggerCreateBookDocs()
   @Post()
-  create(@Body() dto: CreateBookDto): Promise<SuccessResponse> {
+  create(@Body() dto: BookDto): Promise<SuccessResponse> {
     return this.bookService.createBook(dto);
   }
 
+  @SwaggerListBooksDocs()
+  @Get()
+  async listBooks(
+    @Query('page') page = '1',
+    @Query('pageSize') pageSize = '10',
+  ): Promise<Paginated<BookModel>> {
+    const pageNumber = parseInt(page);
+    const pageSizeNumber = parseInt(pageSize);
+    return this.bookService.listBooks(pageNumber, pageSizeNumber);
+  }
 }

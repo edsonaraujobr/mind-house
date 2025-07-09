@@ -2,7 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import { IsInt, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
-export class CreateBookDto {
+export class BookDto {
   @ApiProperty()
   @IsNotEmpty()
   @IsString()
