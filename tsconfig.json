@@ -1,0 +1,35 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "declaration": true,
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "target": "ES2023",
+    "sourceMap": true,
+    "outDir": "./dist",
+    "incremental": true,
+    "skipLibCheck": true,
+    "strictNullChecks": true,
+    "forceConsistentCasingInFileNames": true,
+    "strictBindCallApply": false,
+    "noFallthroughCasesInSwitch": false,
+    "strict": true,
+    "noImplicitAny": true,
+    "esModuleInterop": true,
+    "strictPropertyInitialization": false,
+    "rootDir": "src",
+    "baseUrl": "./src",
+    "paths": {
+      "@common/": ["./common/"],
+      "@common/*": ["./common/*"],
+      "@auth/": ["./modules/auth/"],
+      "@auth/*": ["./modules/auth/*"],
+      "@jwt/": ["./modules/jwt/"],
+      "@jwt/*": ["./modules/jwt/*"],
+      "@prisma/": ["../prisma/"],
+      "@prisma/*": ["../prisma/*"],
+    }
+  }
+}

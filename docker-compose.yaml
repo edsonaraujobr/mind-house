@@ -1,0 +1,12 @@
+services:
+  testdb:
+    container_name: db_test
+    image: postgres:15.1
+    ports:
+      - "5433:5432"
+    volumes:
+      - ./db/dumps:/app-db-dumps
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=root
+      - POSTGRES_DB=testdb
