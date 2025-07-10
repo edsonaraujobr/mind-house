@@ -1,6 +1,6 @@
 import { Injectable, BadRequestException, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'prisma/prisma.service';
-import { BookDto, UpdateBookDto } from './dto/book.dto';
+import { CreateBookDto, UpdateBookDto } from './dto/index';
 import { Paginated, SuccessResponse } from 'modules/common/common.interfaces';
 import { BookModel } from './interfaces/book.interfaces';
 
@@ -13,7 +13,7 @@ export class BookService {
     author,
     isbn,
     publishedYear,
-  }: BookDto): Promise<SuccessResponse> {
+  }: CreateBookDto): Promise<SuccessResponse> {
     if (isbn) {
       const existingBook = await this.prisma.book.findUnique({
         where: { isbn },
@@ -98,7 +98,14 @@ export class BookService {
 
     const bookUpdated = await this.prisma.book.update({
       where: { id },
-      data: dto
+      data: dto,
+      select: {
+        id: true,
+        title: true,
+        author: true,
+        isbn: true,
+        publishedYear: true,
+      }
     });
 
     return bookUpdated;

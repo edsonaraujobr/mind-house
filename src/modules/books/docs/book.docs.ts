@@ -8,15 +8,16 @@ import {
   getSchemaPath,
   ApiParam,
 } from '@nestjs/swagger';
-import { BookDto } from '../dto/book.dto';
+import { CreateBookDto } from '../dto/index';
 import { SuccessResponseDto } from 'modules/common/dto/success.response.dto';
 import { ErrorResponseDto } from 'modules/common/dto/error.response.dto';
 import { PaginatedDto } from 'modules/common/dto/paginated.response.dto';
+import { GetBookDto } from '../dto/get-book.dto';
 
 export function SwaggerCreateBookDocs() {
   return applyDecorators(
     ApiOperation({ summary: 'Cria um novo livro' }),
-    ApiBody({ type: BookDto }),
+    ApiBody({ type: CreateBookDto }),
     SuccessResponseDto({
       status: 201,
       description: 'Livro criado com sucesso'
@@ -30,14 +31,14 @@ export function SwaggerCreateBookDocs() {
   );
 }
 
-const PaginatedBookDto = PaginatedDto(BookDto);
+const PaginatedBookDto = PaginatedDto(GetBookDto);
 
 export function SwaggerListBooksDocs() {
   return applyDecorators(
     ApiOperation({ summary: 'Lista livros com paginação' }),
     ApiQuery({ name: 'page', required: false, type: Number, example: 1 }),
     ApiQuery({ name: 'pageSize', required: false, type: Number, example: 10 }),
-    ApiExtraModels(BookDto, PaginatedBookDto),
+    ApiExtraModels(CreateBookDto, PaginatedBookDto),
     ApiResponse({
       status: 200,
       description: 'Livros listados com sucesso',
@@ -60,7 +61,7 @@ export function SwaggerGetBookByIdDocs() {
     ApiResponse({
       status: 200,
       description: 'Livro encontrado com sucesso',
-      type: BookDto,
+      type: GetBookDto,
     }),
     ErrorResponseDto({
       status: 400,
@@ -80,10 +81,11 @@ export function SwaggerUpdateBookByIdDocs() {
       description: 'ID do livro (UUID)',
       example: 'ae8e014f-6e61-487e-96f1-754103acb971',
     }),
-    ApiBody({ type: BookDto }),
-    SuccessResponseDto({
+    ApiBody({ type: GetBookDto }),
+    ApiResponse({
       status: 200,
       description: 'Livro atualizado com sucesso',
+      type: GetBookDto,
     }),
     ErrorResponseDto({
       status: 400,

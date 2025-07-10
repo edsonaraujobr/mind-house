@@ -1,8 +1,8 @@
-import { ApiProperty, PartialType } from '@nestjs/swagger';
+import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import { IsInt, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
-export class BookDto {
+export class CreateBookDto {
   @ApiProperty()
   @IsNotEmpty()
   @IsString()
@@ -24,5 +24,3 @@ export class BookDto {
   @IsInt()
   publishedYear: number;
 }
-
-export class UpdateBookDto extends PartialType(BookDto) {}

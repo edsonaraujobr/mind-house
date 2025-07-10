@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, Param, Post, Put, Query } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { BookDto, UpdateBookDto } from './dto/book.dto';
+import { CreateBookDto, UpdateBookDto } from './dto/index';
 import { BookService } from './book.service';
 import { Paginated, SuccessResponse } from 'modules/common/common.interfaces';
 import {
@@ -20,7 +20,7 @@ export class BookController {
 
   @SwaggerCreateBookDocs()
   @Post()
-  create(@Body() dto: BookDto): Promise<SuccessResponse> {
+  create(@Body() dto: CreateBookDto): Promise<SuccessResponse> {
     return this.bookService.createBook(dto);
   }
 
