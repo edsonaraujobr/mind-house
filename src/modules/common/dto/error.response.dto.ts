@@ -1,6 +1,6 @@
-import { ApiProperty, ApiResponse } from '@nestjs/swagger';
+import { ApiResponse } from '@nestjs/swagger';
 
-export function ApiErrorExample({
+export function ErrorResponseDto({
   status,
   errorMessage,
   path = '/example',

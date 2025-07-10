@@ -1,6 +1,6 @@
 import { Injectable, BadRequestException, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'prisma/prisma.service';
-import { BookDto } from './dto/book.dto';
+import { BookDto, UpdateBookDto } from './dto/book.dto';
 import { Paginated, SuccessResponse } from 'modules/common/common.interfaces';
 import { BookModel } from './interfaces/book.interfaces';
 
@@ -89,6 +89,22 @@ export class BookService {
     return book;
   }
 
+  async updateBookById(id: string, dto: UpdateBookDto): Promise<BookModel> {
+    const book = await this.prisma.book.findUnique({ where: { id } });
+    
+    if (!book) {
+      throw new NotFoundException('Livro não encontrado');
+    }
+
+    const bookUpdated = await this.prisma.book.update({
+      where: { id },
+      data: dto
+    });
+
+    return bookUpdated;
+  }
+
+    
   async deleteBookById(id: string): Promise<SuccessResponse> {
     const book = await this.prisma.book.findUnique({ where: { id } });
     

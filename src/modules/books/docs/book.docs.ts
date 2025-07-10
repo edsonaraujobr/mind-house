@@ -10,19 +10,18 @@ import {
 } from '@nestjs/swagger';
 import { BookDto } from '../dto/book.dto';
 import { SuccessResponseDto } from 'modules/common/dto/success.response.dto';
-import { ApiErrorExample } from 'modules/common/dto/error.response.dto';
+import { ErrorResponseDto } from 'modules/common/dto/error.response.dto';
 import { PaginatedDto } from 'modules/common/dto/paginated.response.dto';
 
 export function SwaggerCreateBookDocs() {
   return applyDecorators(
     ApiOperation({ summary: 'Cria um novo livro' }),
     ApiBody({ type: BookDto }),
-    ApiResponse({
+    SuccessResponseDto({
       status: 201,
-      description: 'Livro criado com sucesso',
-      type: SuccessResponseDto,
+      description: 'Livro criado com sucesso'
     }),
-    ApiErrorExample({
+    ErrorResponseDto({
       status: 400,
       errorMessage: 'ISBN já está em uso',
       path: '/books',
@@ -63,11 +62,34 @@ export function SwaggerGetBookByIdDocs() {
       description: 'Livro encontrado com sucesso',
       type: BookDto,
     }),
-    ApiErrorExample({
+    ErrorResponseDto({
       status: 400,
       errorMessage: 'Livro não encontrado',
       path: '/books/{id}',
       method: 'GET',
+    }),
+  );
+}
+
+export function SwaggerUpdateBookByIdDocs() {
+  return applyDecorators(
+    ApiOperation({ summary: 'Atualiza um livro pelo ID' }),
+    ApiParam({
+      name: 'id',
+      required: true,
+      description: 'ID do livro (UUID)',
+      example: 'ae8e014f-6e61-487e-96f1-754103acb971',
+    }),
+    ApiBody({ type: BookDto }),
+    SuccessResponseDto({
+      status: 200,
+      description: 'Livro atualizado com sucesso',
+    }),
+    ErrorResponseDto({
+      status: 400,
+      errorMessage: 'Livro não encontrado',
+      path: '/books/{id}',
+      method: 'PUT',
     }),
   );
 }
@@ -81,12 +103,11 @@ export function SwaggerDeleteBookByIdDocs() {
       description: 'ID do livro (UUID)',
       example: 'ae8e014f-6e61-487e-96f1-754103acb971',
     }),
-    ApiResponse({
+    SuccessResponseDto({
       status: 200,
-      description: 'Livro deletado com sucesso',
-      type: BookDto,
+      description: 'Livro removido com sucesso'
     }),
-    ApiErrorExample({
+    ErrorResponseDto({
       status: 400,
       errorMessage: 'Livro não encontrado',
       path: '/books/{id}',

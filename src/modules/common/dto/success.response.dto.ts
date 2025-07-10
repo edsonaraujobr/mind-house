@@ -1,10 +1,22 @@
-import { SuccessResponse } from 'modules/common/common.interfaces';
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiResponse } from '@nestjs/swagger';
 
-export class SuccessResponseDto implements SuccessResponse {
-  @ApiProperty({ example: 'true' })
-  success: boolean;
-
-  @ApiProperty({ example: 'Usuário criado com sucesso' })
+export function SuccessResponseDto({
+  status,
+  success = true,
+  description,
+}: {
+  status: number;
+  success?: boolean;
   description: string;
+}) {
+  return ApiResponse({
+    status,
+    description,
+    schema: {
+      example: {
+        success,
+        description
+      },
+    },
+  });
 }
