@@ -1,10 +1,11 @@
-import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, Query } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { BookDto } from './dto/book.dto';
 import { BookService } from './book.service';
 import { Paginated, SuccessResponse } from 'modules/common/common.interfaces';
 import {
   SwaggerCreateBookDocs,
+  SwaggerDeleteBookByIdDocs,
   SwaggerGetBookByIdDocs,
   SwaggerListBooksDocs,
 } from './docs/book.docs';
@@ -37,5 +38,11 @@ export class BookController {
   @Get(':id')
   async getBookById(@Param('id') id: string): Promise<BookModel> {
     return this.bookService.getBookById(id);
+  }
+
+  @SwaggerDeleteBookByIdDocs()
+  @Delete(':id')
+  async deleteBookById(@Param('id') id: string): Promise<SuccessResponse> {
+    return this.bookService.deleteBookById(id);
   }
 }

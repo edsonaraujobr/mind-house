@@ -71,3 +71,26 @@ export function SwaggerGetBookByIdDocs() {
     }),
   );
 }
+
+export function SwaggerDeleteBookByIdDocs() {
+  return applyDecorators(
+    ApiOperation({ summary: 'Remove um livro pelo ID' }),
+    ApiParam({
+      name: 'id',
+      required: true,
+      description: 'ID do livro (UUID)',
+      example: 'ae8e014f-6e61-487e-96f1-754103acb971',
+    }),
+    ApiResponse({
+      status: 200,
+      description: 'Livro deletado com sucesso',
+      type: BookDto,
+    }),
+    ApiErrorExample({
+      status: 400,
+      errorMessage: 'Livro não encontrado',
+      path: '/books/{id}',
+      method: 'DELETE',
+    }),
+  );
+}
