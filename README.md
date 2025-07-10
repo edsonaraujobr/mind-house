@@ -32,7 +32,11 @@ docker ps
 ```bash
 npm run migrate:deploy 
 ```
-5. Pronto, agora o seu banco de dados está configurado!
+5. Sincronize seu banco de dados com as migrations
+```bash
+npm run migrate:sync 
+```
+6. Pronto, agora o seu banco de dados está configurado!
 
 ## 🚀 Rodando a aplicação
 1. Para rodar sua aplicação e visualizar, basta na raiz do projeto executar:
